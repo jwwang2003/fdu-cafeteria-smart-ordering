@@ -1,8 +1,15 @@
-import * as React from 'react';
+import { useState, useEffect } from 'react';
+
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+
+import OrderItem from './OrderItem';
+
+export {OrderItem}
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -10,58 +17,54 @@ interface TabPanelProps {
   value: number;
 }
 
-function CustomTabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
-
 export default function OrderList() {
-  const [value, setValue] = React.useState(0);
+  const pathname = usePathname();
+
+  const [value, setValue] = useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
+  useEffect(() => {
+    const t = pathname.split('/');
+    console.log(t);
+
+    if (t.length <= 2) setValue(0);
+    else {
+      switch (t[2]) {
+        case "ratepending":
+          setValue(1);
+          break;
+        case "refund":
+          setValue(2);
+          break;
+        default:
+          break;
+      }
+    }
+  }, [pathname]);
+
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="全部订单" {...a11yProps(0)} />
-          <Tab label="待评价" {...a11yProps(1)} />
-          <Tab label="退款/集后" {...a11yProps(2)} />
+            <Tab
+              component={Link}
+              href="/orders"
+              label={"全部订单"}/>
+
+            <Tab 
+              component={Link}
+              href="/orders/ratepending"
+              label={"待评价"}/>
+
+            <Tab
+              component={Link}
+              href="/orders/refund"
+              label={"退款/集后"}/>
         </Tabs>
       </Box>
-      <CustomTabPanel value={value} index={0}>
-        全部订单
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
-        待评价
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
-        退款/集后
-      </CustomTabPanel>
     </Box>
   );
 }

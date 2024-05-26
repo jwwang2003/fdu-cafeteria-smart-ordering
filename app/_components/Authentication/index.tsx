@@ -1,3 +1,7 @@
+"use client"
+
+import { usePathname } from 'next/navigation';
+
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -9,12 +13,15 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
 export default function SignIn() {
+  const pathname = usePathname();
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
       email: data.get('email'),
       password: data.get('password'),
+      remember: data.get('remember')
     });
   };
 
@@ -52,7 +59,7 @@ export default function SignIn() {
               autoComplete="current-password"
             />
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
+              control={<Checkbox name="remember" color="primary" />}
               label="保留登录"
             />
             <Button
@@ -77,7 +84,7 @@ export default function SignIn() {
               </Grid>
 
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href={`/register`} variant="body2">
                   {"注册"}
                 </Link>
               </Grid>

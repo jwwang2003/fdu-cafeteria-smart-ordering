@@ -1,11 +1,11 @@
 "use client"
 
-import OrderList from "@/components/OrderList";
+import { OrderItem } from "@/components/OrderList"
 
 export default function Order() {
   return (
-    <div>
-      <OrderList />
+    <div className="p-1">
+      <OrderItem />
     </div>
   )
 }

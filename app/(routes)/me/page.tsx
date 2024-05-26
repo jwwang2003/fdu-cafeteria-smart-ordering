@@ -9,7 +9,7 @@ export default function Cart() {
       <SignIn />
     </div>
     
-    <p>Settings</p>
+    {/* <p>Settings</p> */}
 
     <Copyright />
 </div>

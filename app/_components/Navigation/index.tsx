@@ -43,7 +43,7 @@ export default function Navigation() {
   const pathname = usePathname();
 
   return (
-    <div className="flex flex-row px-2 py-2 justify-around text-xl phone:text-2xl">
+    <div className="bg-white flex flex-row px-2 py-2 justify-around text-xl phone:text-2xl">
       {
         NavigationItems.map((item, index)=> {
           const isActive = new RegExp(`^${item.path}(/.*)?$`).test(pathname);
@@ -51,11 +51,9 @@ export default function Navigation() {
           return (
             <Link href={item.path} key={"nav-icon" + index} >
             <div className={`${isActive ? 'bg-blue-200' : ''} px-8 py-2 rounded-lg`} >
-              
-                <div className="aspect-square h-full text-blue-700">
-                  {item.icon}
-                </div>
-              
+              <div className="aspect-square h-full text-blue-700">
+                {item.icon}
+              </div>
             </div>
             </Link>
           )
